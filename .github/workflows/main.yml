@@ -1,0 +1,20 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  Build:
+    name: ${{ matrix.platform.name }}
+    runs-on: ${{ matrix.platform.os }}
+    strategy:
+      matrix:
+        platform:
+        - { name: Windows, os: windows-latest }
+        - { name: Linux,   os: ubuntu-latest, flags: -GNinja }
+        - { name: MacOS,   os: macos-latest }
+    steps:
+    - uses: BSFishy/meson-build@v1.0.3
+      with:
+        action: test
+        directory: build
+        setup-options: -Db_lto=false
