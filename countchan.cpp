@@ -1,5 +1,6 @@
 #include <libopenmpt.hpp>
 #include <libopenmpt_ext.hpp>
+#include <memory>
 #include <vector>
 #include <fstream>
 
