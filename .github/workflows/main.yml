@@ -11,7 +11,7 @@ jobs:
         platform:
         - { name: Windows, os: windows-latest }
         - { name: Linux,   os: ubuntu-latest, flags: -GNinja }
-        - { name: MacOS,   os: macos-latest }
+        - { name: MacOS,   os: macos-latest-large }
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
@@ -25,7 +25,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: binary-${{ matrix.platform.os }}-${{ matrix.platform.version }}
+        name: binary-${{ matrix.platform.os }}
         path: |
           build/countchan**
           !build/countchan*.p/**
