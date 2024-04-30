@@ -26,5 +26,5 @@ jobs:
       with:
         name: binary-${{ matrix.os }}-${{ matrix.version }}
         path: |
-          build/countchan*
-          !build/countchan*/**
+          build/countchan**
+          !build/countchan.p/**
