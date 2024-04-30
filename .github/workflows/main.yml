@@ -21,10 +21,11 @@ jobs:
     - run: pip install meson ninja
     - run: meson setup -Db_lto=false build
     - run: meson compile -C build
+    - run: strip build/countchan || strip build/countchan.exe
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
         name: binary-${{ matrix.platform.os }}-${{ matrix.platform.version }}
         path: |
           build/countchan**
-          !build/countchan.p/**
+          !build/countchan*.p/**
