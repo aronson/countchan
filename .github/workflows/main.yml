@@ -11,7 +11,7 @@ jobs:
         platform:
         - { name: Windows, os: windows-latest }
         - { name: Linux,   os: ubuntu-latest, flags: -GNinja }
-        - { name: MacOS,   os: macos-latest-large }
+        - { name: MacOS,   os: macos-latest }
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
