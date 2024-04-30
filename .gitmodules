@@ -1,0 +1,3 @@
+[submodule "subprojects/libopenmpt"]
+	path = subprojects/libopenmpt
+	url = https://gitea.com/Apotris/libopenmpt.git
