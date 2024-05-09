@@ -20,27 +20,7 @@ std::shared_ptr<openmpt::module> loadModuleFromFile(const std::string& filePath)
 std::size_t framesRendered = 0;
 
 int getChannelCount(const std::shared_ptr<openmpt::module>& mod) {
-    return mod->get_current_playing_channels();
-}
-
-int getActiveChannelCount(const std::shared_ptr<openmpt::module>& mod, int sampleRate, std::size_t bufferSize) {
-    std::vector<int16_t> leftBuffer(bufferSize);
-    std::vector<int16_t> rightBuffer(bufferSize);
-
-    // Render a block of audio
-    framesRendered = mod->read(sampleRate, bufferSize, leftBuffer.data(), rightBuffer.data());
-
-    // Check if any channels are active
-    int maxChannels = 0;
-
-    for (std::size_t i = 0; i < framesRendered; ++i) {
-        if (leftBuffer[i] != 0 || rightBuffer[i] != 0) {
-            maxChannels = std::max(getChannelCount(mod), maxChannels);
-            break;
-        }
-    }
-
-    return maxChannels;
+    return mod->get_num_channels();
 }
 
 int main(int argc, char* argv[]) {
@@ -52,16 +32,8 @@ int main(int argc, char* argv[]) {
     std::string filename(argv[1]);
     std::cout << "Scanning: " << filename << std::endl;
     auto mod = loadModuleFromFile(filename);
-    int sampleRate = 48000;
-    std::size_t bufferSize = 480; // e.g. 10ms buffer at 48kHz
 
-    int maxChannels = 0;
-    bool songFinished = false;
-    while (!songFinished) {
-        maxChannels = std::max(maxChannels, getActiveChannelCount(mod, sampleRate, bufferSize));
-        // Check if the end of the song has been reached
-        songFinished = (framesRendered == 0);
-    }
+    int maxChannels = getChannelCount(mod);
     if (maxChannels > 12) {
         std::cout << "Max channels: " << maxChannels << ". This song WILL fail on GBA!" << std::endl;
         return 1;
